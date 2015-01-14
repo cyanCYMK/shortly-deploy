@@ -1,2 +1,2 @@
 [config]
-command = PORT="4567" bash deploy.sh
+command = bash deploy.sh
