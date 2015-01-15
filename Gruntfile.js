@@ -79,7 +79,10 @@ module.exports = function(grunt) {
 
     shell: {
       prodServer: {
-        command: 'git push azure master'
+        command: ['git push azure master',
+                  'rm public/dist/built.js',
+                  'rm public/dist/built.min.js',
+                  'rm public/style.min.css'].join('&&')
       }
     },
   });
@@ -121,7 +124,7 @@ module.exports = function(grunt) {
   grunt.registerTask('upload', function(n) {
     if(grunt.option('prod')) {
       // add your production server task here
-
+      grunt.task.run(['shell:prodServer']);
     } else {
       grunt.task.run([ 'server-dev' ]);
     }
