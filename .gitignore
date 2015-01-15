@@ -28,3 +28,6 @@ results
 
 npm-debug.log
 node_modules
+azure.err
+iisnode.yml
+public/dist
