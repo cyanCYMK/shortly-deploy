@@ -67,8 +67,9 @@ module.exports = function(grunt) {
           'public/lib/**/*.js',
         ],
         tasks: [
-          'concat',
-          'uglify'
+          'jshint',
+          'test',
+          'build'
         ]
       },
       css: {
