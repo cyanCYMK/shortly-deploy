@@ -13,7 +13,11 @@ app.configure(function() {
   app.use(express.bodyParser());
   app.use(express.static(__dirname + '/public'));
   app.use(express.cookieParser('shhhh, very secret'));
-  app.use(express.session());
+  app.use(express.session({
+    secret: 'hack',
+    resave: false,
+    saveUninitialized: true
+  }));
 });
 
 app.get('/', util.checkUser, handler.renderIndex);
