@@ -7,7 +7,7 @@ module.exports = function(grunt) {
         separator: ';'
       },
       dist: {
-        src: ['public/**/*.js'],
+        src: ['public/client/*.js'],
         dest: 'public/dist/built.js'
       }
     },
@@ -15,7 +15,9 @@ module.exports = function(grunt) {
     mochaTest: {
       test: {
         options: {
-          reporter: 'spec'
+          reporter: 'spec',
+          force: false,
+          clearRequireCache: true
         },
         src: ['test/**/*.js']
       }
@@ -41,7 +43,7 @@ module.exports = function(grunt) {
         'public/client/*.js'
       ],
       options: {
-        force: 'false',
+        force: false,
         jshintrc: '.jshintrc',
         ignores: [
           'public/lib/**/*.js',
@@ -51,6 +53,11 @@ module.exports = function(grunt) {
     },
 
     cssmin: {
+      target: {
+        files: {
+          'public/style.min.css':['public/*.css']
+        }
+      }
     },
 
     watch: {
@@ -72,6 +79,7 @@ module.exports = function(grunt) {
 
     shell: {
       prodServer: {
+        command: 'git push azure master'
       }
     },
   });
@@ -102,24 +110,18 @@ module.exports = function(grunt) {
   // Main grunt tasks
   ////////////////////////////////////////////////////
 
-  grunt.registerTask('test', function(a){
-    grunt.task.run(['jshint','mochaTest']);
-    console.log(this.errorCount);
-    if(this.errorCount > 0){
-      grunt.fail.warn('Your test is failing!');
-    }
-  });
+  grunt.registerTask('test',['mochaTest']);
 
   grunt.registerTask('build', [
-    //CONCAT
     'concat',
-    //UGLIFY
-    'uglify'
+    'uglify',
+    'cssmin'
   ]);
 
   grunt.registerTask('upload', function(n) {
     if(grunt.option('prod')) {
       // add your production server task here
+
     } else {
       grunt.task.run([ 'server-dev' ]);
     }
@@ -127,8 +129,10 @@ module.exports = function(grunt) {
 
   grunt.registerTask('deploy', [
     // add your deploy tasks here
-    //BUILD, JSHINT, MOCHATEST,upload
-    'test','build'
+    'jshint',
+    'test',
+    'build',
+    'upload'
   ]);
 
   grunt.registerTask('default',['deploy']);
