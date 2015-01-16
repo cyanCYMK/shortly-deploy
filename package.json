@@ -28,7 +28,7 @@
     "grunt-nodemon": "^0.2.1",
     "grunt-mocha-test": "^0.10.0",
     "mongoose": "~3.8.21",
-    "bluebird": "1.0.8",
+    "bluebird": "~1.0.8",
     "mongo": "~0.1.0"
   },
   "devDependencies": {
